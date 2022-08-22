@@ -21,6 +21,15 @@
     };
   };
 
+
+  # List packages installed in system profile. To search, run:
+  # $ nix search wget
+  environment.systemPackages = with pkgs; [
+    awscli # AWS CLI
+    fira-code
+    git
+  ];
+
   nixpkgs.config.allowUnfree = true;
 
   # networking.hostName = "nixos"; # Define your hostname.
@@ -44,6 +53,14 @@
   };
 
   services = {
+    fprintd.enable = true;
+
+    openssh.enable = true;
+
+    openvpn.servers = {
+      bellroyVPN = { config = '' config /etc/nixos/config.ovpn ''; };
+    };
+
     # Enable the X11 windowing system.
     xserver = {
       enable = true;
@@ -54,6 +71,7 @@
 
       displayManager = {
         gdm.enable = true;
+        gdm.wayland = true;
       };
     };
   };
@@ -86,6 +104,7 @@
     extraGroups = [ "wheel" ]; # Enable ‘sudo’ for the user.
     packages = with pkgs; [
       _1password-gui
+      albert
       fira-code
       google-chrome
       nix-direnv
@@ -97,28 +116,19 @@
     ];
   };
 
-  # List packages installed in system profile. To search, run:
-  # $ nix search wget
-  environment.systemPackages = with pkgs; [
-    awscli # AWS CLI
-    fira-code
-    git
-  ];
-
   nix.autoOptimiseStore = true;
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
-  programs.mtr.enable = true;
-  programs.gnupg.agent = {
-    enable = true;
-    enableSSHSupport = true;
+  programs = {
+    gnupg.agent = {
+      enable = true;
+      enableSSHSupport = true;
+    };
+    mtr.enable = true;
+    zsh.enable = true;
+    sway.enable = true;
   };
-
-  # List services that you want to enable:
-
-  # Enable the OpenSSH daemon.
-  services.openssh.enable = true;
 
   # Open ports in the firewall.
   # networking.firewall.allowedTCPPorts = [ ... ];
