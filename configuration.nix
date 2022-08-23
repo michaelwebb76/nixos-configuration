@@ -57,9 +57,13 @@
 
     openssh.enable = true;
 
-    openvpn.servers = {
-      bellroyVPN = { config = '' config /etc/nixos/config.ovpn ''; };
-    };
+    # openvpn.servers = {
+    #   bellroyVPN = {
+    #     autoStart = true;
+    #     config = '' config /etc/nixos/config.ovpn '';
+    #     updateResolvConf = true;
+    #   };
+    # };
 
     # Enable the X11 windowing system.
     xserver = {
