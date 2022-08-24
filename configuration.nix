@@ -4,6 +4,15 @@
 
 { config, pkgs, lib, ... }:
 
+let
+  nvidia-offload = pkgs.writeShellScriptBin "nvidia-offload" ''
+    export __NV_PRIME_RENDER_OFFLOAD=1
+    export __NV_PRIME_RENDER_OFFLOAD_PROVIDER=NVIDIA-G0
+    export __GLX_VENDOR_LIBRARY_NAME=nvidia
+    export __VK_LAYER_NV_optimus=NVIDIA_only
+    exec -a "$0" "$@"
+  '';
+in
 {
   imports =
     [ <nixos-hardware/dell/xps/15-9500/nvidia>
@@ -26,8 +35,8 @@
   # $ nix search wget
   environment.systemPackages = with pkgs; [
     awscli # AWS CLI
-    fira-code
     git
+    nvidia-offload
   ];
 
   nixpkgs.config.allowUnfree = true;
@@ -50,6 +59,33 @@
     font = "Lat2-Terminus16";
 #    keyMap = "us";
     useXkbConfig = true; # use xkbOptions in tty.
+  };
+
+  fonts = {
+    fontDir = { enable = true; };
+    enableGhostscriptFonts = true;
+    fonts = with pkgs; [
+      d2coding
+      dejavu_fonts
+      source-code-pro
+      source-sans-pro
+      source-serif-pro
+      anonymousPro
+      corefonts
+      fira-code
+      fira-mono
+      hack-font
+      hasklig
+      inconsolata
+      symbola
+    ];
+    fontconfig = {
+      defaultFonts = {
+        monospace = [ "Fira Mono" ];
+        sansSerif = [ "Fira Code" ];
+        serif     = [ "Fira Code" ];
+      };
+    };
   };
 
   services = {
@@ -93,14 +129,39 @@
   # Enable sound.
   sound.enable = true;
   hardware = {
+    bluetooth = {
+      enable = true;
+      settings = {
+        General = {
+          Enable = "Source,Sink,Media,Socket";
+        };
+      };
+    };
+    nvidia = {
+      modesetting.enable = true;
+      powerManagement.enable = true;
+      package = config.boot.kernelPackages.nvidiaPackages.stable;
+      prime = {
+        offload.enable = true;
+        intelBusId = "PCI:0:2:0";
+        nvidiaBusId = "PCI:1:0:0";
+      };
+    };
+    opengl = {
+      driSupport32Bit = true;
+      enable = true;
+      extraPackages = [
+        pkgs.libGL
+      ];
+      setLdLibraryPath = true;
+    };
     pulseaudio = {
       enable = true;
+      package = pkgs.pulseaudioFull;
       support32Bit = true;
     };
   };
-
-  # Enable touchpad support (enabled default in most desktopManager).
-  # services.xserver.libinput.enable = true;
+  powerManagement.enable = true;
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.mike = {
@@ -109,7 +170,9 @@
     packages = with pkgs; [
       _1password-gui
       albert
+      caffeine-ng
       fira-code
+      fira-mono
       google-chrome
       nix-direnv
       pinentry
