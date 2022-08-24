@@ -174,6 +174,7 @@ in
       fira-code
       fira-mono
       google-chrome
+      gnome3.gnome-power-manager
       nix-direnv
       pinentry
       slack
@@ -188,10 +189,6 @@ in
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
   programs = {
-    gnupg.agent = {
-      enable = true;
-      enableSSHSupport = true;
-    };
     mtr.enable = true;
     zsh.enable = true;
     sway.enable = true;
