@@ -37,6 +37,7 @@ in
     awscli # AWS CLI
     git
     nvidia-offload
+    vim
   ];
 
   nixpkgs.config.allowUnfree = true;
@@ -89,6 +90,28 @@ in
   };
 
   services = {
+    postgresql = {
+      enable = true;
+      authentication = pkgs.lib.mkOverride 10 ''
+        local all all trust
+	      host all all 0.0.0.0/0 md5
+        host all all ::1/128 trust
+      '';
+      initialScript = pkgs.writeText "backend-initScript" ''
+        CREATE ROLE postgres WITH LOGIN PASSWORD 'postgres' CREATEDB;
+        CREATE DATABASE postgres;
+        GRANT ALL PRIVILEGES ON DATABASE postgres TO postgres;
+      '';
+      extraPlugins = [ (pkgs.postgis.override { postgresql = pkgs.postgresql_13; }) ];
+    };
+
+    redis = {
+      enable = true;
+    };
+    memcached = {
+      enable = true;
+    };
+
     fprintd.enable = true;
 
     openssh.enable = true;
@@ -181,6 +204,7 @@ in
       spotify
       # xmind - currently breaks during build
       vscode
+      watchman
     ];
   };
 
