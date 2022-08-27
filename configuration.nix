@@ -22,6 +22,7 @@ in
     ];
 
   boot = {
+    kernelModules = [ "uvcvideo" "usbvideo" ];
     kernelPackages = pkgs.linuxPackages_latest;
     loader = {
       # Use the systemd-boot EFI boot loader.
@@ -89,7 +90,9 @@ in
     };
   };
 
+
   services = {
+    gnome.gnome-keyring.enable = true;
     postgresql = {
       enable = true;
       authentication = pkgs.lib.mkOverride 10 ''
@@ -116,14 +119,6 @@ in
 
     openssh.enable = true;
 
-    # openvpn.servers = {
-    #   bellroyVPN = {
-    #     autoStart = true;
-    #     config = '' config /etc/nixos/config.ovpn '';
-    #     updateResolvConf = true;
-    #   };
-    # };
-
     # Enable the X11 windowing system.
     xserver = {
       enable = true;
@@ -138,16 +133,6 @@ in
       };
     };
   };
-
-  # Configure keymap in X11
-  # services.xserver.layout = "us";
-  # services.xserver.xkbOptions = {
-  #   "eurosign:e";
-  #   "caps:escape" # map caps to escape.
-  # };
-
-  # Enable CUPS to print documents.
-  # services.printing.enable = true;
 
   # Enable sound.
   sound.enable = true;
@@ -196,13 +181,19 @@ in
       caffeine-ng
       fira-code
       fira-mono
-      google-chrome
+      gnome3.cheese
       gnome3.gnome-power-manager
+      gnome3.gnome-shell-extensions
+      gnome3.gnome-tweaks
+      gnome3.libgnome-keyring
+      gnomeExtensions.emoji-selector
+      gnomeExtensions.timezones-extension
+      google-chrome
+      networkmanagerapplet
       nix-direnv
       pinentry
       slack
       spotify
-      # xmind - currently breaks during build
       vscode
       watchman
     ];
@@ -217,17 +208,6 @@ in
     zsh.enable = true;
     sway.enable = true;
   };
-
-  # Open ports in the firewall.
-  # networking.firewall.allowedTCPPorts = [ ... ];
-  # networking.firewall.allowedUDPPorts = [ ... ];
-  # Or disable the firewall altogether.
-  # networking.firewall.enable = false;
-
-  # Copy the NixOS configuration file and link it from the resulting system
-  # (/run/current-system/configuration.nix). This is useful in case you
-  # accidentally delete configuration.nix.
-  # system.copySystemConfiguration = true;
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
