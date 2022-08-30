@@ -171,16 +171,18 @@ in
   };
   powerManagement.enable = true;
 
+  security.pki.certificateFiles = ["/home/mike/.ssh/nifi-cert.pem"];
+
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.mike = {
     isNormalUser = true;
     extraGroups = [ "wheel" ]; # Enable ‘sudo’ for the user.
     packages = with pkgs; [
       _1password-gui
-      albert
       caffeine-ng
       fira-code
       fira-mono
+      firefox
       gnome3.cheese
       gnome3.gnome-power-manager
       gnome3.gnome-shell-extensions
@@ -191,6 +193,7 @@ in
       google-chrome
       networkmanagerapplet
       nix-direnv
+      nss.tools
       pinentry
       slack
       spotify
