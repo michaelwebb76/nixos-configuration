@@ -93,8 +93,10 @@ in
 
   services = {
     gnome.gnome-keyring.enable = true;
+
     postgresql = {
       enable = true;
+      package = pkgs.postgresql_11;
       authentication = pkgs.lib.mkOverride 10 ''
         local all all trust
 	      host all all 0.0.0.0/0 md5
@@ -105,7 +107,6 @@ in
         CREATE DATABASE postgres;
         GRANT ALL PRIVILEGES ON DATABASE postgres TO postgres;
       '';
-      extraPlugins = [ (pkgs.postgis.override { postgresql = pkgs.postgresql_13; }) ];
     };
 
     redis = {
@@ -118,6 +119,10 @@ in
     fprintd.enable = true;
 
     openssh.enable = true;
+
+    # Enable CUPS to print documents.
+    printing.enable = true;
+    printing.drivers = [ pkgs.gutenprint ];
 
     # Enable the X11 windowing system.
     xserver = {
@@ -178,7 +183,10 @@ in
     isNormalUser = true;
     extraGroups = [ "wheel" ]; # Enable ‘sudo’ for the user.
     packages = with pkgs; [
+      _1password
       _1password-gui
+      albert
+      audacity
       caffeine-ng
       fira-code
       fira-mono
