@@ -211,6 +211,9 @@ in
   };
 
   nix.autoOptimiseStore = true;
+  nix.extraOptions = ''
+    experimental-features = nix-command
+  '';
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
