@@ -212,7 +212,7 @@ in
 
   nix.autoOptimiseStore = true;
   nix.extraOptions = ''
-    experimental-features = nix-command
+    experimental-features = nix-command flakes
   '';
 
   # Some programs need SUID wrappers, can be configured further or are
