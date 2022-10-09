@@ -188,6 +188,7 @@ in
       albert
       audacity
       caffeine-ng
+      dbeaver
       fira-code
       fira-mono
       firefox
