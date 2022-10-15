@@ -189,6 +189,7 @@ in
       audacity
       caffeine-ng
       dbeaver
+      docker
       fira-code
       fira-mono
       firefox
@@ -203,7 +204,9 @@ in
       networkmanagerapplet
       nix-direnv
       nss.tools
+      obsidian
       pinentry
+      skypeforlinux
       slack
       spotify
       vscode
