@@ -4,18 +4,9 @@
 
 { config, pkgs, lib, ... }:
 
-let
-  nvidia-offload = pkgs.writeShellScriptBin "nvidia-offload" ''
-    export __NV_PRIME_RENDER_OFFLOAD=1
-    export __NV_PRIME_RENDER_OFFLOAD_PROVIDER=NVIDIA-G0
-    export __GLX_VENDOR_LIBRARY_NAME=nvidia
-    export __VK_LAYER_NV_optimus=NVIDIA_only
-    exec -a "$0" "$@"
-  '';
-in
 {
   imports =
-    [ <nixos-hardware/dell/xps/15-9500/nvidia>
+    [ <nixos-hardware/dell/xps/15-9500> # just add /nvidia to the end if you want nvidia drivers back
       # Include the results of the hardware scan.
       ./hardware-configuration.nix
       <home-manager/nixos>
@@ -37,7 +28,6 @@ in
   environment.systemPackages = with pkgs; [
     awscli # AWS CLI
     git
-    nvidia-offload
     vim
   ];
 
@@ -150,24 +140,14 @@ in
         };
       };
     };
-    nvidia = {
-      modesetting.enable = true;
-      powerManagement.enable = true;
-      package = config.boot.kernelPackages.nvidiaPackages.stable;
-      prime = {
-        offload.enable = true;
-        intelBusId = "PCI:0:2:0";
-        nvidiaBusId = "PCI:1:0:0";
-      };
-    };
-    opengl = {
-      driSupport32Bit = true;
-      enable = true;
-      extraPackages = [
-        pkgs.libGL
-      ];
-      setLdLibraryPath = true;
-    };
+    # opengl = {
+    #   driSupport32Bit = true;
+    #   enable = true;
+    #   extraPackages = [
+    #     pkgs.libGL
+    #   ];
+    #   setLdLibraryPath = true;
+    # };
     pulseaudio = {
       enable = true;
       package = pkgs.pulseaudioFull;
@@ -218,6 +198,11 @@ in
   nix.extraOptions = ''
     experimental-features = nix-command flakes
   '';
+  nix.settings = {
+    trusted-substituters = [ "https://cache.nixos.org" "https://hydra.iohk.io" "s3://bellroy-nix-cache?profile=trike" ];
+    substituters = [ "https://cache.nixos.org" "https://hydra.iohk.io" "s3://bellroy-nix-cache?profile=trike" ];
+    trusted-public-keys = [ "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY=" "hydra.iohk.io:f/Ea+s+dFdN+3Y/G+FDgSq+a5NEWhJGzdjvKNGv0/EQ=" "bellroy-nix-cache-1:Cx/qZdMTZiTEUn+B16hIhqvtwYWukKo40EabPBaChJY=" ];
+  };
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
