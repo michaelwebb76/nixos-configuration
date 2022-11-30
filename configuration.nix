@@ -6,7 +6,8 @@
 
 {
   imports =
-    [ <nixos-hardware/dell/xps/15-9500> # just add /nvidia to the end if you want nvidia drivers back
+    [
+      <nixos-hardware/dell/xps/15-9500> # just add /nvidia to the end if you want nvidia drivers back
       # Include the results of the hardware scan.
       ./hardware-configuration.nix
       <home-manager/nixos>
@@ -36,7 +37,7 @@
   # networking.hostName = "nixos"; # Define your hostname.
   # Pick only one of the below networking options.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
-  networking.networkmanager.enable = true;  # Easiest to use and most distros use this by default.
+  networking.networkmanager.enable = true; # Easiest to use and most distros use this by default.
 
   # Set your time zone.
   time.timeZone = "Australia/Melbourne";
@@ -49,7 +50,7 @@
   i18n.defaultLocale = "en_US.UTF-8";
   console = {
     font = "Lat2-Terminus16";
-#    keyMap = "us";
+    #    keyMap = "us";
     useXkbConfig = true; # use xkbOptions in tty.
   };
 
@@ -75,7 +76,7 @@
       defaultFonts = {
         monospace = [ "Fira Mono" ];
         sansSerif = [ "Fira Code" ];
-        serif     = [ "Fira Code" ];
+        serif = [ "Fira Code" ];
       };
     };
   };
@@ -89,7 +90,7 @@
       package = pkgs.postgresql_11;
       authentication = pkgs.lib.mkOverride 10 ''
         local all all trust
-	      host all all 0.0.0.0/0 md5
+        host all all 0.0.0.0/0 md5
         host all all ::1/128 trust
       '';
       initialScript = pkgs.writeText "backend-initScript" ''
@@ -156,7 +157,7 @@
   };
   powerManagement.enable = true;
 
-  security.pki.certificateFiles = ["/home/mike/.ssh/nifi-cert.pem"];
+  security.pki.certificateFiles = [ "/home/mike/.ssh/nifi-cert.pem" ];
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.mike = {
@@ -166,14 +167,15 @@
       _1password
       _1password-gui
       albert
+      # Audio editor
       audacity
-      caffeine-ng
+      # Database client
       dbeaver
       docker
       fira-code
       fira-mono
       firefox
-      gnome3.cheese
+      gimp
       gnome3.gnome-power-manager
       gnome3.gnome-shell-extensions
       gnome3.gnome-tweaks
@@ -183,7 +185,11 @@
       google-chrome
       networkmanagerapplet
       nix-direnv
+      nixpkgs-fmt
       nss.tools
+      # Desktop recording
+      obs-studio
+      # Notes wiki
       obsidian
       pinentry
       skypeforlinux
