@@ -4,10 +4,19 @@
 
 { config, pkgs, lib, ... }:
 
+let
+  nvidia-offload = pkgs.writeShellScriptBin "nvidia-offload" ''
+    export __NV_PRIME_RENDER_OFFLOAD=1
+    export __NV_PRIME_RENDER_OFFLOAD_PROVIDER=NVIDIA-G0
+    export __GLX_VENDOR_LIBRARY_NAME=nvidia
+    export __VK_LAYER_NV_optimus=NVIDIA_only
+    exec -a "$0" "$@"
+  '';
+in
 {
   imports =
     [
-      <nixos-hardware/dell/xps/15-9500> # just add /nvidia to the end if you want nvidia drivers back
+      <nixos-hardware/dell/xps/15-9500/nvidia>
       # Include the results of the hardware scan.
       ./hardware-configuration.nix
       <home-manager/nixos>
@@ -128,6 +137,7 @@
         gdm.enable = true;
         gdm.wayland = true;
       };
+      videoDrivers = [ "nvidia" ];
     };
   };
 
@@ -142,14 +152,24 @@
         };
       };
     };
-    # opengl = {
-    #   driSupport32Bit = true;
-    #   enable = true;
-    #   extraPackages = [
-    #     pkgs.libGL
-    #   ];
-    #   setLdLibraryPath = true;
-    # };
+    nvidia = {
+      modesetting.enable = true;
+      powerManagement.enable = true;
+      package = config.boot.kernelPackages.nvidiaPackages.stable;
+      prime = {
+        offload.enable = true;
+        intelBusId = "PCI:0:2:0";
+        nvidiaBusId = "PCI:1:0:0";
+      };
+    };
+    opengl = {
+      driSupport32Bit = true;
+      enable = true;
+      extraPackages = [
+        pkgs.libGL
+      ];
+      setLdLibraryPath = true;
+    };
     pulseaudio = {
       enable = true;
       package = pkgs.pulseaudioFull;
@@ -188,6 +208,7 @@
       nix-direnv
       nixpkgs-fmt
       nss.tools
+      nvidia-offload
       # Desktop recording
       obs-studio
       # Notes wiki
