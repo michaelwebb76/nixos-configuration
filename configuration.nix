@@ -28,6 +28,7 @@
   # $ nix search wget
   environment.systemPackages = with pkgs; [
     awscli # AWS CLI
+    docker
     git
     vim
   ];
@@ -171,7 +172,6 @@
       audacity
       # Database client
       dbeaver
-      docker
       fira-code
       fira-mono
       firefox
@@ -205,9 +205,9 @@
     experimental-features = nix-command flakes
   '';
   nix.settings = {
-    trusted-substituters = [ "https://cache.nixos.org" "https://hydra.iohk.io" "s3://bellroy-nix-cache?profile=trike" ];
-    substituters = [ "https://cache.nixos.org" "https://hydra.iohk.io" "s3://bellroy-nix-cache?profile=trike" ];
-    trusted-public-keys = [ "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY=" "hydra.iohk.io:f/Ea+s+dFdN+3Y/G+FDgSq+a5NEWhJGzdjvKNGv0/EQ=" "bellroy-nix-cache-1:Cx/qZdMTZiTEUn+B16hIhqvtwYWukKo40EabPBaChJY=" ];
+    trusted-substituters = [ "https://cache.nixos.org" "https://cache.iog.io" "s3://bellroy-nix-cache?profile=trike" ];
+    substituters = [ "https://cache.nixos.org" "https://cache.iog.io" "s3://bellroy-nix-cache?profile=trike" ];
+    trusted-public-keys = [ "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY=" "cache.iog.io:f/Ea+s+dFdN+3Y/G+FDgSq+a5NEWhJGzdjvKNGv0/EQ=" "bellroy-nix-cache-1:Cx/qZdMTZiTEUn+B16hIhqvtwYWukKo40EabPBaChJY=" ];
   };
 
   # Some programs need SUID wrappers, can be configured further or are
@@ -224,5 +224,5 @@
   # this value at the release version of the first install of this system.
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
-  system.stateVersion = "22.05"; # Did you read the comment?
+  system.stateVersion = "22.11"; # Did you read the comment?
 }
