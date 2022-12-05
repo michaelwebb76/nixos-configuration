@@ -163,7 +163,7 @@
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.mike = {
     isNormalUser = true;
-    extraGroups = [ "wheel" ]; # Enable ‘sudo’ for the user.
+    extraGroups = [ "wheel" "docker" ]; # Enable ‘sudo’ for the user.
     packages = with pkgs; [
       _1password
       _1password-gui
@@ -172,6 +172,7 @@
       audacity
       # Database client
       dbeaver
+      docker-compose
       fira-code
       fira-mono
       firefox
@@ -216,6 +217,11 @@
     mtr.enable = true;
     zsh.enable = true;
     sway.enable = true;
+  };
+
+  virtualisation.docker = {
+    enable = true;
+    extraOptions = "--dns=8.8.8.8";
   };
 
   # This value determines the NixOS release from which the default
