@@ -207,7 +207,7 @@
   nix.settings = {
     trusted-substituters = [ "https://cache.nixos.org" "https://cache.iog.io" "s3://bellroy-nix-cache?profile=trike" ];
     substituters = [ "https://cache.nixos.org" "https://cache.iog.io" "s3://bellroy-nix-cache?profile=trike" ];
-    trusted-public-keys = [ "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY=" "cache.iog.io:f/Ea+s+dFdN+3Y/G+FDgSq+a5NEWhJGzdjvKNGv0/EQ=" "bellroy-nix-cache-1:Cx/qZdMTZiTEUn+B16hIhqvtwYWukKo40EabPBaChJY=" ];
+    trusted-public-keys = [ "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY=" "hydra.iohk.io:f/Ea+s+dFdN+3Y/G+FDgSq+a5NEWhJGzdjvKNGv0/EQ=" "bellroy-nix-cache-1:Cx/qZdMTZiTEUn+B16hIhqvtwYWukKo40EabPBaChJY=" ];
   };
 
   # Some programs need SUID wrappers, can be configured further or are
