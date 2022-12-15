@@ -181,45 +181,56 @@ in
   security.pki.certificateFiles = [ "/home/mike/.ssh/nifi-cert.pem" ];
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
-  users.users.mike = {
-    isNormalUser = true;
-    extraGroups = [ "wheel" "docker" ]; # Enable ‘sudo’ for the user.
-    packages = with pkgs; [
-      _1password
-      _1password-gui
-      albert
-      # Audio editor
-      audacity
-      # Database client
-      dbeaver
-      docker-compose
-      fira-code
-      fira-mono
-      firefox
-      gimp
-      gnome3.gnome-power-manager
-      gnome3.gnome-shell-extensions
-      gnome3.gnome-tweaks
-      gnome3.libgnome-keyring
-      gnomeExtensions.emoji-selector
-      gnomeExtensions.timezones-extension
-      google-chrome
-      networkmanagerapplet
-      nix-direnv
-      nixpkgs-fmt
-      nss.tools
-      nvidia-offload
-      # Desktop recording
-      obs-studio
-      # Notes wiki
-      obsidian
-      pinentry
-      skypeforlinux
-      slack
-      spotify
-      vscode
-      watchman
-    ];
+  users = {
+    groups = {
+      docker = { };
+    };
+
+    users = {
+      mike = {
+        isNormalUser = true;
+        group = "users";
+        extraGroups = [ "wheel" "docker" ]; # Enable ‘sudo’ for the user.
+        packages = with pkgs; [
+          _1password
+          _1password-gui
+          albert
+          # Audio editor
+          audacity
+          # Database client
+          dbeaver
+          docker-compose
+          fira-code
+          fira-mono
+          firefox
+          gimp
+          gnome3.gnome-power-manager
+          gnome3.gnome-shell-extensions
+          gnome3.gnome-tweaks
+          gnome3.libgnome-keyring
+          gnomeExtensions.emoji-selector
+          gnomeExtensions.timezones-extension
+          google-chrome
+          networkmanagerapplet
+          nix-direnv
+          nixpkgs-fmt
+          nss.tools
+          nvidia-offload
+          # Desktop recording
+          obs-studio
+          # Notes wiki
+          obsidian
+          pinentry
+          skypeforlinux
+          slack
+          spotify
+          vscode
+          watchman
+          workrave
+          zoom-us
+        ];
+      };
+    };
   };
 
   nix.autoOptimiseStore = true;
@@ -242,7 +253,7 @@ in
 
   virtualisation.docker = {
     enable = true;
-    extraOptions = "--dns=8.8.8.8";
+    # extraOptions = "--dns=8.8.8.8";
   };
 
   # This value determines the NixOS release from which the default
