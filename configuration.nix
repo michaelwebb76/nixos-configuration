@@ -203,9 +203,9 @@
           skypeforlinux
           slack
           spotify
+          stretchly
           vscode
           watchman
-          workrave
           zoom-us
         ];
       };
