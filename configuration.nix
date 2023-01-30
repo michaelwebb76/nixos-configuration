@@ -224,7 +224,6 @@ in
           skypeforlinux
           slack
           spotify
-          stretchly
           vscode
           watchman
           zoom-us
