@@ -189,6 +189,7 @@
           gnomeExtensions.emoji-selector
           gnomeExtensions.timezones-extension
           google-chrome
+          haruna
           networkmanagerapplet
           nix-direnv
           nixpkgs-fmt
