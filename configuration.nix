@@ -190,6 +190,7 @@
           gnomeExtensions.timezones-extension
           google-chrome
           haruna
+          haskellPackages.cabal-install
           networkmanagerapplet
           nix-direnv
           nixpkgs-fmt
