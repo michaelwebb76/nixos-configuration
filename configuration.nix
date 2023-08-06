@@ -174,6 +174,7 @@ in
   };
   powerManagement.enable = true;
 
+  security.polkit.enable = true;
   security.pki.certificateFiles = [ "/home/mike/.ssh/nifi-cert.pem" ];
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
