@@ -4,15 +4,6 @@
 
 { config, pkgs, lib, ... }:
 
-let
-  nvidia-offload = pkgs.writeShellScriptBin "nvidia-offload" ''
-    export __NV_PRIME_RENDER_OFFLOAD=1
-    export __NV_PRIME_RENDER_OFFLOAD_PROVIDER=NVIDIA-G0
-    export __GLX_VENDOR_LIBRARY_NAME=nvidia
-    export __VK_LAYER_NV_optimus=NVIDIA_only
-    exec -a "$0" "$@"
-  '';
-in
 {
   imports =
     [
@@ -188,45 +179,6 @@ in
         isNormalUser = true;
         group = "users";
         extraGroups = [ "wheel" "docker" ]; # Enable ‘sudo’ for the user.
-        packages = with pkgs; [
-          _1password
-          _1password-gui
-          albert
-          # Audio editor
-          audacity
-          # Database client
-          dbeaver
-          docker-compose
-          fira-code
-          fira-mono
-          firefox
-          gimp
-          gnome3.gnome-power-manager
-          gnome3.gnome-shell-extensions
-          gnome3.gnome-tweaks
-          gnome3.libgnome-keyring
-          gnomeExtensions.emoji-selector
-          gnomeExtensions.timezones-extension
-          google-chrome
-          haruna
-          haskellPackages.cabal-install
-          networkmanagerapplet
-          nix-direnv
-          nixpkgs-fmt
-          nss.tools
-          nvidia-offload
-          # Desktop recording
-          obs-studio
-          # Notes wiki
-          obsidian
-          pinentry
-          skypeforlinux
-          slack
-          spotify
-          vscode
-          watchman
-          zoom-us
-        ];
       };
     };
   };
